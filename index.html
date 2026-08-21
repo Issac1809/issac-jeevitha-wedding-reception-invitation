@@ -280,6 +280,33 @@ h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;margin:0}
   text-transform:uppercase;
   white-space:nowrap;
 }
+.next-page-arrow{
+  position:absolute;
+  z-index:12;
+  left:50%;
+  bottom:max(18px,env(safe-area-inset-bottom) + 12px);
+  width:44px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  padding:0;
+  border:1px solid var(--gold);
+  border-radius:50%;
+  background:rgba(255,255,255,.78);
+  color:var(--gold-dark);
+  font-size:22px;
+  line-height:1;
+  transform:translateX(-50%);
+  box-shadow:0 8px 20px rgba(73,50,94,.12);
+  animation:nextArrowFloat 1.8s ease-in-out infinite;
+}
+.next-page-arrow:hover{background:rgba(255,255,255,.96);transform:translateX(-50%) translateY(-2px)}
+@keyframes nextArrowFloat{0%,100%{margin-bottom:0}50%{margin-bottom:5px}}
+#cover .scroll-cue,
+#story .scroll-cue,
+#countdown .scroll-cue,
+#venue .scroll-cue,
+#families .scroll-cue{display:none}
 
 #opening .scroll-cue,
 #reveal .scroll-cue,
@@ -524,6 +551,15 @@ body.locked{height:100svh;overflow:hidden;touch-action:none}
 
   box-shadow:0 22px 55px rgba(50,30,65,.18);
 }
+.couple-portrait img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:72% 50%;
+  display:block;
+}
 .couple-portrait::before{
   content:"";
   position:absolute;
@@ -550,6 +586,7 @@ body.locked{height:100svh;overflow:hidden;touch-action:none}
     background-position:58% 22%;
     background-size:125% auto;
   }
+  .couple-portrait img{object-position:73% 50%}
 }
 #dots{opacity:0;pointer-events:none;transition:opacity .35s ease}body.invitation-open #dots{opacity:1;pointer-events:auto}button,.envelope{-webkit-tap-highlight-color:transparent;user-select:none}
 
@@ -1238,6 +1275,45 @@ body a{
   }
 }
 
+/* Final narrow-phone guardrails: keep text in normal flow and artwork contained. */
+@media(max-width:760px){
+  #cover .cover-inner{gap:0;text-align:center}
+  #cover .names,
+  #cover .cover-title,
+  #cover .cover-tagline{position:relative;z-index:6}
+  #cover .names{font-size:clamp(48px,13.8vw,74px);line-height:.94}
+  #cover .cover-title{margin-top:24px;line-height:1.08}
+  #cover .cover-tagline{line-height:1.45;margin-bottom:0}
+  .couple-portrait{height:clamp(240px,70vw,320px);background-image:none}
+  .couple-portrait img{object-position:73% 50%}
+  #marriageRevealOverlay{align-items:center}
+  .marriage-reveal-inner{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    min-height:240px;
+    max-height:calc(100svh - 24px);
+    padding:44px 20px 38px;
+  }
+  .marriage-reveal-title{
+    position:relative;
+    z-index:4;
+    width:100%;
+    margin:0;
+    line-height:.95;
+    overflow-wrap:normal;
+  }
+  .marriage-reveal-ornament{position:relative;z-index:4;margin-top:18px}
+  .party-popper{z-index:1}
+  .next-page-arrow{
+    bottom:max(16px,env(safe-area-inset-bottom) + 10px);
+    width:42px;
+    height:42px;
+    font-size:20px;
+  }
+}
+
 </style>
 </head>
 
@@ -1249,24 +1325,14 @@ body a{
 
 <!-- Scratch completion celebration overlay -->
 <div id="marriageRevealOverlay" aria-hidden="true">
-  <div class="marriage-reveal-inner">
+  <div class="celebration-confetti" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+  <div class="firework left" aria-hidden="true">✺</div>
+  <div class="firework right" aria-hidden="true">✺</div>
 
-    <div class="party-popper left" aria-hidden="true">
-      <div class="burst">✦</div><div class="cone"></div>
-      <span class="stream s1">•</span><span class="stream s2">✦</span>
-      <span class="stream s3">•</span><span class="stream s4">✦</span>
-    </div>
-    <div class="party-popper right" aria-hidden="true">
-      <div class="burst">✦</div><div class="cone"></div>
-      <span class="stream s1">•</span><span class="stream s2">✦</span>
-      <span class="stream s3">•</span><span class="stream s4">✦</span>
-    </div>
-    <div class="celebration-confetti" aria-hidden="true">
-      <span></span><span></span><span></span><span></span><span></span>
-      <span></span><span></span><span></span><span></span><span></span>
-    </div>
-    <div class="firework left" aria-hidden="true">✺</div>
-    <div class="firework right" aria-hidden="true">✺</div>
+  <div class="marriage-reveal-inner">
 
     <div class="marriage-reveal-small"><strong>The secret is out</strong></div>
     <div class="marriage-reveal-title">We're Getting Married!</div>
@@ -1281,6 +1347,8 @@ body a{
   <div class="paper"></div><div class="paper back"></div>
   <div class="floral tl"><span class="leaf one"></span><span class="leaf two"></span></div>
   <div class="floral tr"><span class="leaf one"></span><span class="leaf two"></span></div>
+  <div class="floral bl"><span class="leaf one"></span><span class="leaf two"></span></div>
+  <div class="floral br"><span class="leaf one"></span><span class="leaf two"></span></div>
   <div class="inner opening-copy fade">
     <div class="eyebrow"><strong>A special invitation</strong></div>
     <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open invitation">
@@ -1295,8 +1363,10 @@ body a{
 
 <!-- 2. SCRATCH REVEAL -->
 <section class="screen" id="reveal">
+  <div class="floral tl"><span class="leaf one"></span><span class="leaf two"></span></div>
   <div class="floral tr"><span class="leaf one"></span><span class="leaf two"></span></div>
   <div class="floral bl"><span class="leaf one"></span><span class="leaf two"></span></div>
+  <div class="floral br"><span class="leaf one"></span><span class="leaf two"></span></div>
   <div class="inner fade">
     <div class="eyebrow"><strong>A little surprise</strong></div>
     <h2 class="section-title">Scratch to Reveal</h2>
@@ -1336,11 +1406,14 @@ body a{
     <p class="cover-tagline"><strong>A journey of two hearts, two families &amp; one beautiful future</strong></p>
   </div>
   <div class="scroll-cue"><strong>Scroll to discover ↓</strong></div>
+  <button class="next-page-arrow" type="button" aria-label="Go to Our Story">↓</button>
 </section>
 
 <!-- 4. OUR STORY -->
 <section class="screen" id="story">
   <div class="floral tl"><span class="leaf one"></span><span class="leaf two"></span></div>
+  <div class="floral tr"><span class="leaf one"></span><span class="leaf two"></span></div>
+  <div class="floral bl"><span class="leaf one"></span><span class="leaf two"></span></div>
   <div class="floral br"><span class="leaf one"></span><span class="leaf two"></span></div>
   <div class="inner fade">
     <div class="eyebrow"><strong>A chapter written together</strong></div>
@@ -1355,14 +1428,19 @@ body a{
       </div>
       <div class="story-quote">And now, a beautiful new chapter begins...</div>
       <div class="ornament">♡ ❦ ♡</div>
-      <div class="couple-portrait" aria-label="Elegant couple illustration"><div class="couple-glow"></div><div class="couple-silhouette"><div class="figure groom-figure"><span class="head"></span><span class="body"></span></div><div class="figure bride-figure"><span class="head"></span><span class="hair"></span><span class="body"></span></div><span class="heart">♡</span></div></div>
+      <div class="couple-portrait"><img src="couple-landscape.png" alt="A couple walking together through a flower field"><div class="couple-glow"></div><div class="couple-silhouette"><div class="figure groom-figure"><span class="head"></span><span class="body"></span></div><div class="figure bride-figure"><span class="head"></span><span class="hair"></span><span class="body"></span></div><span class="heart">♡</span></div></div>
     </div>
   </div>
   <div class="scroll-cue"><strong>Scroll to discover ↓</strong></div>
+  <button class="next-page-arrow" type="button" aria-label="Go to Our Wedding Day">↓</button>
 </section>
 
 <!-- 5. COUNTDOWN -->
 <section class="screen" id="countdown">
+  <div class="floral tl"><span class="leaf one"></span><span class="leaf two"></span></div>
+  <div class="floral tr"><span class="leaf one"></span><span class="leaf two"></span></div>
+  <div class="floral bl"><span class="leaf one"></span><span class="leaf two"></span></div>
+  <div class="floral br"><span class="leaf one"></span><span class="leaf two"></span></div>
   <div class="lotus"><span></span><span></span><span></span><span></span><span></span></div>
   <div class="inner fade">
     <div class="eyebrow"><strong>Counting down to forever</strong></div>
@@ -1378,13 +1456,16 @@ body a{
     <div class="ornament">♡ ❦ ♡</div>
   </div>
   <div class="scroll-cue"><strong>Scroll to discover ↓</strong></div>
+  <button class="next-page-arrow" type="button" aria-label="Go to Venue Details">↓</button>
 </section>
 
 <!-- 6. EVENTS -->
 <!-- 7. VENUES -->
 <section class="screen" id="venue">
+  <div class="floral tl"><span class="leaf one"></span><span class="leaf two"></span></div>
   <div class="floral tr"><span class="leaf one"></span><span class="leaf two"></span></div>
   <div class="floral bl"><span class="leaf one"></span><span class="leaf two"></span></div>
+  <div class="floral br"><span class="leaf one"></span><span class="leaf two"></span></div>
   <div class="inner fade">
     <div class="eyebrow"><strong>Find us</strong></div>
     <h2 class="section-title">Venue Details</h2>
@@ -1411,12 +1492,17 @@ body a{
     </div>
   </div>
   <div class="scroll-cue"><strong>Scroll to discover ↓</strong></div>
+  <button class="next-page-arrow" type="button" aria-label="Go to Our Families">↓</button>
 </section>
 
 <!-- 8. GALLERY -->
 <!-- 9. MENU -->
 <!-- 10. FAMILIES -->
 <section class="screen" id="families">
+  <div class="floral tl"><span class="leaf one"></span><span class="leaf two"></span></div>
+  <div class="floral tr"><span class="leaf one"></span><span class="leaf two"></span></div>
+  <div class="floral bl"><span class="leaf one"></span><span class="leaf two"></span></div>
+  <div class="floral br"><span class="leaf one"></span><span class="leaf two"></span></div>
   <div class="lotus"><span></span><span></span><span></span><span></span><span></span></div>
   <div class="inner fade">
     <div class="eyebrow"><strong>With love &amp; blessings</strong></div>
@@ -1435,6 +1521,7 @@ body a{
     <div class="family-heart">With love from both families</div>
   </div>
   <div class="scroll-cue"><strong>Scroll to discover ↓</strong></div>
+  <button class="next-page-arrow" type="button" aria-label="Go to Thank You">↓</button>
 </section>
 
 <!-- 11. RSVP / GUESTBOOK -->
@@ -1511,6 +1598,16 @@ const observer = new IntersectionObserver(entries => {
   });
 },{threshold:.16});
 fades.forEach(el=>observer.observe(el));
+
+const invitationSections = [...document.querySelectorAll(".screen")];
+document.querySelectorAll(".next-page-arrow").forEach(arrow => {
+  arrow.addEventListener("click", () => {
+    const currentSection = arrow.closest(".screen");
+    const currentIndex = invitationSections.indexOf(currentSection);
+    const nextSection = invitationSections[currentIndex + 1];
+    if(nextSection) nextSection.scrollIntoView({behavior:"smooth",block:"start"});
+  });
+});
 
 /* Countdown */
 const target = new Date(weddingConfig.weddingDate);
