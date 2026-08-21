@@ -345,14 +345,18 @@ h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;margin:0}
   box-shadow:var(--shadow);
   background:linear-gradient(135deg,#fff,#f0e2f7);
   border:1px solid var(--line);
+  transition:transform .22s ease,box-shadow .22s ease;
 }
+.scratch-card.is-scratching{transform:translateY(-2px) scale(1.01);box-shadow:0 28px 72px rgba(49,92,67,.2)}
 .reveal-content{
   position:absolute;inset:0;display:grid;place-items:center;
   text-align:center;padding:30px;
 }
 .reveal-content .small{letter-spacing:.2em;text-transform:uppercase;color:#7b667f;font-size:11px}
 .reveal-content h3{font-size:clamp(55px,10vw,88px);line-height:.82;color:#2c2432}
-#scratch{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+#scratch{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab;transition:opacity .55s ease,transform .55s ease}
+#scratch:active{cursor:grabbing}
+#scratch.scratch-finished{opacity:0;transform:scale(1.02)}
 .hint{font-size:11px;color:var(--muted);letter-spacing:.08em}
 
 /* Countdown */
@@ -525,6 +529,7 @@ h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;margin:0}
 html{scroll-behavior:smooth;overscroll-behavior-y:none;background:var(--lavender)}
 body{background:linear-gradient(180deg,var(--lavender) 0%, #e8d9f1 42%, var(--lavender-soft) 100%);overflow-x:hidden;overscroll-behavior-y:none}
 body.locked{height:100svh;overflow:hidden;touch-action:none}
+body.scratch-locked{overflow:hidden;touch-action:none}
 .screen{min-height:100svh;height:auto;padding:max(58px,env(safe-area-inset-top) + 38px) max(18px,env(safe-area-inset-right) + 16px) max(58px,env(safe-area-inset-bottom) + 38px) max(18px,env(safe-area-inset-left) + 16px);scroll-snap-align:start;scroll-snap-stop:normal;contain:paint}
 @media(min-width:761px){html{scroll-snap-type:y proximity}}
 @media(max-width:760px){html{scroll-snap-type:y proximity}.screen{min-height:100svh;padding-top:max(48px,env(safe-area-inset-top) + 28px);padding-bottom:max(52px,env(safe-area-inset-bottom) + 30px)}.screen::after{inset:12px;border-radius:18px}.frame{inset:25px;border-radius:18px}.inner{width:min(100%,680px)}.eyebrow{font-size:clamp(9px,2.3vw,11px);letter-spacing:.19em;line-height:1.5}.section-title{font-size:clamp(38px,11vw,58px);line-height:.98}.cover-title{font-size:clamp(26px,8vw,42px);line-height:1.04;margin-top:22px}.names{font-size:clamp(52px,14vw,78px);line-height:.88;margin:18px 0 0;padding-bottom:8px}.names .amp{font-size:.38em;margin:6px 0 5px}.date{font-size:11px;letter-spacing:.22em;line-height:1.5;margin-top:14px}.cover-tagline{font-size:clamp(16px,4.8vw,20px);line-height:1.4;max-width:92%}.content-card{margin-top:22px;padding:26px 18px;border-radius:18px}.story-copy{font-size:clamp(18px,5.3vw,23px);line-height:1.45;margin:16px auto 22px}.story-quote{font-size:clamp(29px,8vw,38px);line-height:1.1}.ornament{font-size:18px;margin:11px 0}.opening-copy h1{font-size:clamp(32px,9vw,48px);line-height:1}.opening-copy p{font-size:11px;line-height:1.5;max-width:280px;margin:8px auto}.envelope{width:min(380px,84vw);height:min(245px,55vw);max-height:260px;margin:22px auto 20px}.scratch-card{width:min(560px,92vw);height:min(330px,72vw);min-height:245px;margin:22px auto}.reveal-content{padding:18px}.reveal-content h3{font-size:clamp(45px,13vw,76px);line-height:.8}.count-grid{gap:9px;margin:24px auto}.count-box{padding:17px 5px;border-radius:15px}.count-box strong{font-size:clamp(32px,10vw,55px);line-height:1}.count-box span{font-size:8px;letter-spacing:.13em}.venue-grid{grid-template-columns:1fr;gap:12px;margin-top:22px}.venue-card{padding:22px 17px;border-radius:17px}.venue-card h3{font-size:27px;line-height:1.05}.venue-card p{font-size:11px;line-height:1.6}.btn{min-height:42px;padding:10px 18px;font-size:11px}.family-grid{grid-template-columns:1fr;gap:12px;margin-top:22px}.family-card{padding:23px 17px;border-radius:17px}.family-card h3{font-size:29px;line-height:1.05}.family-card p{font-size:18px;line-height:1.45}.family-heart{font-size:34px;line-height:1.05}.final-title{font-size:clamp(58px,16vw,84px);line-height:.95;margin-top:20px}.final-names{font-size:clamp(24px,7vw,38px);line-height:1.15}.final-note{font-size:clamp(17px,4.9vw,22px);line-height:1.45;max-width:90%;margin:14px auto}.scroll-cue{left:50%;bottom:max(16px,env(safe-area-inset-bottom) + 12px);width:max-content;max-width:90%;white-space:nowrap;transform:translateX(-50%);font-size:8px;letter-spacing:.19em}.floral{width:105px;height:105px;opacity:.62}.floral::after{font-size:21px;letter-spacing:4px}.floral .leaf{width:27px;height:13px}.floral.tl{left:-10px;top:-2px}.floral.tr{right:-10px;top:-2px}.floral.bl{left:-10px;bottom:-2px}.floral.br{right:-10px;bottom:-2px}.lotus{width:82vw;height:190px;opacity:.12}.petal{font-size:15px}}
@@ -1314,6 +1319,67 @@ body a{
   }
 }
 
+:root{
+  --lavender:#FAF5EA;
+  --lavender-2:#FAF5EA;
+  --lavender-deep:#7B1E2B;
+  --lavender-rich:#315C43;
+  --lavender-mid:#C9A24A;
+  --lavender-soft:#E7EFE8;
+  --maroon:#7B1E2B;
+  --forest-green:#315C43;
+  --soft-green:#E7EFE8;
+  --soft-maroon:#F3E2E3;
+  --ivory:#FAF5EA;
+  --blush:#F3E2E3;
+  --gold:#C9A24A;
+  --gold-light:#E7C985;
+  --gold-dark:#7B1E2B;
+  --ink:#1C1A17;
+  --muted:#315C43;
+  --line:rgba(201,162,74,.9);
+  --page-lavender:#FAF5EA;
+  --black:#1C1A17;
+}
+
+html,body{background:var(--ivory)!important}
+body{color:var(--ink)!important;background:var(--ivory)!important}
+.screen,#cover,#opening,#countdown,#final{background:var(--ivory)!important;background-image:none!important}
+#reveal,#venue{background:var(--blush)!important;background-image:none!important}
+#story,#families{background:var(--lavender-soft)!important;background-image:none!important}
+#marriageRevealOverlay{background:var(--blush)!important;background-image:none!important}
+
+body p,body h1,body h2,body h3,body div,body span,body strong,body small,body label,body button,body input,body textarea,body select,body a{color:var(--ink)}
+.opening-copy h1,.cover-title,.section-title,.story-copy,.final-names,.final-note,.count-box strong,.event h3,.event .meta,.event .venue,.venue-card h3,.venue-card p,.menu-card h3,.menu-list,.family-card h3,.family-card p,.form-card,.field label,.hint,.reveal-content .small,.marriage-reveal-small,.marriage-reveal-sub,.scroll-cue,.eyebrow,.date,.cover-tagline{color:var(--ink)!important}
+.names,.names .amp,.story-quote,.story-quote,.final-title,.marriage-reveal-title,.marriage-reveal-ornament,.ornament,.family-heart,.venue-card .pin,.event-dot,.gold-line,.photo::after{color:var(--gold)!important}
+.section-title,.cover-title,.event h3,.venue-card h3,.menu-card h3,.family-card h3{color:var(--maroon,#7B1E2B)!important}
+.story-copy,.story-quote,.menu-list,.family-card p,.final-note{color:var(--forest-green,#315C43)!important}
+.screen::after,.frame,.paper,.scratch-card,.count-box,.event,.venue-card,.menu-card,.family-card,.form-card,.couple-portrait,.marriage-reveal-inner{border-color:var(--gold)!important}
+.floral::before{border-bottom-color:rgba(49,92,67,.6)}
+.floral::after{color:var(--maroon,#7B1E2B)}
+.floral .leaf{background:linear-gradient(135deg,var(--gold-light),var(--forest-green,#315C43))}
+.petal{color:var(--maroon,#7B1E2B)}
+.btn{background:var(--maroon,#7B1E2B);border-color:var(--gold);color:#fff!important}
+.btn:hover{background:var(--forest-green,#315C43)}
+.btn.secondary{background:var(--ivory);color:var(--maroon,#7B1E2B)!important}
+.next-page-arrow,.top{background:rgba(250,245,234,.9);color:var(--maroon,#7B1E2B)!important;border-color:var(--gold)}
+.content-card,.scratch-card,.count-box,.event,.venue-card,.menu-card,.family-card,.form-card{background:rgba(250,245,234,.82)}
+.env-back{background:var(--blush);border-color:var(--gold)}
+.env-pocket{background:linear-gradient(180deg,var(--ivory),var(--blush))}
+.flap{background:linear-gradient(180deg,var(--forest-green,#315C43),var(--maroon,#7B1E2B))}
+.seal{background:radial-gradient(circle at 35% 30%,var(--gold-light),var(--maroon,#7B1E2B))}
+.scratch-card{background:var(--soft-green,#E7EFE8)}
+.photo{background:linear-gradient(145deg,var(--soft-green,#E7EFE8),var(--ivory));color:var(--forest-green,#315C43)}
+.field input,.field textarea,.field select{border-color:var(--gold);background:rgba(250,245,234,.9);color:var(--ink)}
+.status,.reveal-content .small,.count-box span,.field label{color:var(--forest-green,#315C43)!important}
+.couple-portrait{box-shadow:0 22px 55px rgba(49,92,67,.18)}
+.marriage-reveal-inner{background:rgba(250,245,234,.9);box-shadow:0 30px 90px rgba(123,30,43,.16)}
+.marriage-reveal-inner::after{border-color:rgba(201,162,74,.55)}
+.party-popper .cone{background:linear-gradient(160deg,var(--gold-light),var(--gold));border-color:var(--gold)}
+.party-popper .stream,.celebration-confetti span{color:var(--maroon,#7B1E2B);background:var(--maroon,#7B1E2B)}
+.celebration-confetti span:nth-child(3n){background:var(--gold)}
+#final p[style]{color:var(--forest-green,#315C43)!important}
+
 </style>
 </head>
 
@@ -1583,7 +1649,10 @@ function openInvitation(){
   envelope.classList.add("open");
   document.body.classList.remove("locked");
   document.body.classList.add("invitation-open");
-  setTimeout(()=>document.getElementById("reveal").scrollIntoView({behavior:"smooth",block:"start"}),850);
+  setTimeout(()=>{
+    document.getElementById("reveal").scrollIntoView({behavior:"smooth",block:"start"});
+    document.body.classList.add("scratch-locked");
+  },850);
 }
 envelope.addEventListener("click", openInvitation);
 envelope.addEventListener("keydown", e => {
@@ -1636,6 +1705,7 @@ const nextSection = document.getElementById("cover");
 let scratching = false;
 let scratchCompleted = false;
 let scratchCheckTimer = null;
+let lastScratchPoint = null;
 
 function resizeScratch(){
   const r = scratchWrap.getBoundingClientRect();
@@ -1692,6 +1762,8 @@ function celebrateScratch(){
   scratching = false;
   if(scratchCheckTimer) clearTimeout(scratchCheckTimer);
   canvas.style.pointerEvents = "none";
+  scratchWrap.classList.remove("is-scratching");
+  lastScratchPoint=null;
   canvas.classList.add("scratch-finished");
   if (revealSection) revealSection.classList.add("scratched");
   document.body.style.overflow = "hidden";
@@ -1710,13 +1782,14 @@ function celebrateScratch(){
       void nextSection.offsetWidth;
       nextSection.classList.add("scratch-cover-arrival");
 
-      // Start the downward transition while the overlay is still covering the page.
-      nextSection.scrollIntoView({behavior:"smooth",block:"start"});
+      // Move directly to the names page while the overlay is still covering the page.
+      window.scrollTo(0,nextSection.offsetTop);
 
       // Reveal the names page only after the smooth scroll has had time to finish.
       setTimeout(()=>{
         marriageOverlay.classList.remove("show");
         marriageOverlay.setAttribute("aria-hidden","true");
+        document.body.classList.remove("scratch-locked");
         document.body.style.overflow = "";
         if (revealSection) revealSection.classList.remove("scratched");
       },1600);
@@ -1736,9 +1809,21 @@ function scratchAt(e){
   const x = e.clientX-r.left;
   const y = e.clientY-r.top;
   ctx.globalCompositeOperation="destination-out";
+  ctx.lineWidth=64;
+  ctx.lineCap="round";
+  ctx.lineJoin="round";
+  ctx.shadowBlur=8;
+  ctx.shadowColor="rgba(0,0,0,.28)";
   ctx.beginPath();
-  ctx.arc(x,y,32,0,Math.PI*2);
-  ctx.fill();
+  if(lastScratchPoint){
+    ctx.moveTo(lastScratchPoint.x,lastScratchPoint.y);
+    ctx.lineTo(x,y);
+  }else{
+    ctx.moveTo(x,y);
+    ctx.lineTo(x+.01,y+.01);
+  }
+  ctx.stroke();
+  lastScratchPoint={x,y};
   if(!scratchCheckTimer){
     scratchCheckTimer=setTimeout(()=>{
       scratchCheckTimer=null;
@@ -1749,6 +1834,8 @@ function scratchAt(e){
 canvas.addEventListener("pointerdown",e=>{
   if(scratchCompleted) return;
   scratching=true;
+  scratchWrap.classList.add("is-scratching");
+  lastScratchPoint=null;
   canvas.setPointerCapture(e.pointerId);
   scratchAt(e);
 });
@@ -1757,9 +1844,15 @@ canvas.addEventListener("pointermove",e=>{
 });
 canvas.addEventListener("pointerup",()=>{
   scratching=false;
+  scratchWrap.classList.remove("is-scratching");
+  lastScratchPoint=null;
   checkScratchProgress();
 });
-canvas.addEventListener("pointercancel",()=>scratching=false);
+canvas.addEventListener("pointercancel",()=>{
+  scratching=false;
+  scratchWrap.classList.remove("is-scratching");
+  lastScratchPoint=null;
+});
 
 /* Maps */
 document.querySelectorAll("[data-map]").forEach(btn=>{
