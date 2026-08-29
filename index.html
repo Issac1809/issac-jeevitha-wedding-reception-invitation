@@ -232,7 +232,41 @@ h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;margin:0}
   background:radial-gradient(circle at 35% 30%,#d9b873,#8f692f);
   color:#fff;font-size:25px;
   box-shadow:0 9px 20px rgba(90,63,30,.22);
-  z-index:5;transition:.5s;
+  z-index:5;
+  transition:transform .28s ease,opacity .4s ease,box-shadow .28s ease;
+  animation:heartPulse 1.7s ease-in-out infinite;
+  will-change:transform;
+}
+.seal::before,
+.seal::after{
+  content:"";
+  position:absolute;
+  inset:-7px;
+  border:1px solid rgba(217,184,115,.5);
+  border-radius:50%;
+  opacity:.35;
+  animation:heartRing 1.7s ease-out infinite;
+}
+.seal::after{
+  inset:-14px;
+  animation-delay:.85s;
+}
+.envelope:hover .seal,
+.envelope:focus-visible .seal{
+  animation-duration:1.25s;
+  box-shadow:0 12px 26px rgba(90,63,30,.3);
+}
+@keyframes heartPulse{
+  0%,100%{transform:translate(-50%,-50%) scale(1)}
+  12%{transform:translate(-50%,-50%) scale(1.12)}
+  24%{transform:translate(-50%,-50%) scale(1)}
+  36%{transform:translate(-50%,-50%) scale(1.08)}
+  48%{transform:translate(-50%,-50%) scale(1)}
+}
+@keyframes heartRing{
+  0%{transform:scale(.76);opacity:.35}
+  70%{opacity:.08}
+  100%{transform:scale(1.25);opacity:0}
 }
 .envelope.open .flap{transform:rotateX(180deg)}
 .envelope.open .seal{opacity:0;transform:translate(-50%,-50%) scale(.5)}
@@ -972,18 +1006,20 @@ body{-webkit-overflow-scrolling:touch}
   #petalLayer .falling-petal{pointer-events:none}
 }
 
-/* Very small/short phones: prioritize readability over vertical centering. */
+/* Very small/short phones: keep the content centered but tighten spacing. */
 @media (max-width:380px), (max-height:700px) and (max-width:760px){
   .screen{
-    align-items:flex-start;
-    padding-top:max(30px,env(safe-area-inset-top) + 18px);
-    padding-bottom:max(44px,env(safe-area-inset-bottom) + 28px);
+    align-items:center;
+    justify-content:center;
+    padding-top:max(22px,env(safe-area-inset-top) + 16px);
+    padding-bottom:max(22px,env(safe-area-inset-bottom) + 16px);
   }
-  #opening .inner{margin-top:8px}
+  .inner{margin:auto}
+  #opening .inner{margin-top:0}
   .envelope{width:min(330px,82vw);height:min(215px,52vw);margin:18px auto 16px}
   #opening .ornament{margin:12px 0 8px}
   #opening .opening-copy p{margin-top:6px}
-  #cover .cover-inner{min-height:0;padding-top:22px;padding-bottom:72px}
+  #cover .cover-inner{min-height:0;padding-top:18px;padding-bottom:18px}
   #cover .names{font-size:clamp(46px,13.5vw,64px);margin-top:16px}
   #cover .names .amp{margin:7px 0 6px}
   #cover .date{margin-top:14px}
@@ -997,10 +1033,10 @@ body{-webkit-overflow-scrolling:touch}
 
 /* Landscape phones: use the available width while avoiding vertical clipping. */
 @media (orientation:landscape) and (max-height:600px) and (max-width:900px){
-  .screen{min-height:100svh;padding-top:max(18px,env(safe-area-inset-top) + 12px);padding-bottom:max(30px,env(safe-area-inset-bottom) + 20px)}
+  .screen{min-height:100svh;align-items:center;justify-content:center;padding-top:max(18px,env(safe-area-inset-top) + 12px);padding-bottom:max(18px,env(safe-area-inset-bottom) + 12px)}
   #opening .envelope{width:300px;height:190px;margin:12px auto}
   #opening .opening-copy h1{font-size:34px}
-  #cover .cover-inner{min-height:0;padding-top:18px;padding-bottom:54px}
+  #cover .cover-inner{min-height:0;padding-top:18px;padding-bottom:18px}
   #cover .names{font-size:clamp(42px,9vw,60px);margin-top:10px}
   #cover .names .amp{margin:4px 0}
   #cover .date{margin-top:8px}
@@ -1576,12 +1612,12 @@ body p,body h1,body h2,body h3,body div,body span,body strong,body small,body la
     <div class="gold-line"></div>
     <div class="family-grid">
       <article class="family-card">
-        <h3>Bride's Family</h3>
-        <p><strong>Father's Name:</strong> Kittusamy<br><strong>Mother's Name:</strong> Kanagamani<br><strong>Brother's Name:</strong> Mohan Kumar</p>
+        <h3>Groom's Family</h3>
+        <p><strong>Father's Name: Chinraj</strong><br><strong>Mother's Name: Sheela</strong></p>
       </article>
       <article class="family-card">
-        <h3>Groom's Family</h3>
-        <p><strong>Father's Name:</strong> Chinraj<br><strong>Mother's Name:</strong> Sheela</p>
+        <h3>Bride's Family</h3>
+        <p><strong>Father's Name: Kittusamy</strong><br><strong>Mother's Name: Kanagamani</strong><br><strong>Brother's Name: Mohan Kumar</strong></p>
       </article>
     </div>
     <div class="family-heart">With love from both families</div>
