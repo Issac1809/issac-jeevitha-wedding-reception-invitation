@@ -424,9 +424,9 @@ h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;margin:0}
 .event .venue{color:#4f3f59;font-weight:600}
 
 /* Venue */
-.venue-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;width:min(100%,740px);max-width:calc(100% - 48px);margin:32px auto 0;align-items:stretch}
+.venue-grid{display:grid;grid-template-columns:repeat(2,minmax(260px,1fr));gap:16px;width:min(100%,740px);max-width:calc(100% - 48px);margin:32px auto 0;align-items:stretch;justify-items:center}
 .venue-card{
-  position:relative;min-width:0;max-width:100%;width:100%;height:100%;
+  position:relative;min-width:0;max-width:100%;width:100%;max-width:320px;height:100%;
   display:flex;flex-direction:column;justify-content:space-between;align-items:center;text-align:center;
   padding:22px 16px 18px;border:1px solid var(--line);border-radius:18px;
   background:rgba(255,255,255,.72);box-shadow:0 10px 28px rgba(82,55,96,.08);
@@ -534,7 +534,8 @@ h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;margin:0}
   .floral.br{right:22px;bottom:22px;transform:scale(-1) scale(.72)}
   .count-grid{grid-template-columns:repeat(2,1fr)}
   .venue-grid,.menu-grid,.family-grid,.gallery{grid-template-columns:1fr}
-  .venue-card{padding:22px 17px 18px;border-radius:17px}
+  .venue-grid{justify-items:center}
+  .venue-card{width:min(100%,420px);max-width:420px;padding:22px 17px 18px;border-radius:17px;margin:0 auto}
   .venue-card .btn{align-self:stretch}
   .event{padding-left:64px}
   .timeline::before{left:25px}
@@ -1555,7 +1556,7 @@ body p,body h1,body h2,body h3,body div,body span,body strong,body small,body la
       <div class="count-box"><strong id="minutes">--</strong><span>Minutes</span></div>
       <div class="count-box"><strong id="seconds">--</strong><span>Seconds</span></div>
     </div>
-    <div class="eyebrow"><strong>Wednesday · 11 November 2026</strong></div>
+    <div class="eyebrow"><strong>Wednesday · 11 November 2026 · 9:30 AM</strong></div>
     <div class="ornament">♡ ❦ ♡</div>
   </div>
   <div class="scroll-cue"><strong>Scroll to discover ↓</strong></div>
@@ -1583,13 +1584,13 @@ body p,body h1,body h2,body h3,body div,body span,body strong,body small,body la
       <article class="venue-card">
         <div class="pin">⌂</div>
         <h3>Marriage</h3>
-        <p><strong>Fathima Church - Silver Jubilee Hall</strong><br>72, Dr Radhakrishna St, near Fathima Church, Doctor's Colony, Laxmana Nagar, Gandhipuram, Coimbatore, Tamil Nadu 641012</p>
+        <p><strong>Time: 9:30 AM - 10:30 AM</strong><br><strong>Fathima Church - Silver Jubilee Hall</strong><br>72, Dr Radhakrishna St, near Fathima Church, Doctor's Colony, Laxmana Nagar, Gandhipuram, Coimbatore, Tamil Nadu 641012</p>
         <button class="btn secondary" data-map="MARRIAGE"><strong>View on Map</strong></button>
       </article>
       <article class="venue-card">
         <div class="pin">✦</div>
         <h3>Reception</h3>
-        <p><strong>Fathima Church - Silver Jubilee Hall</strong><br>72, Dr Radhakrishna St, near Fathima Church, Doctor's Colony, Laxmana Nagar, Gandhipuram, Coimbatore, Tamil Nadu 641012</p>
+        <p><strong>Time: 12:00 PM - 03:00 PM</strong><br><strong>Fathima Church - Silver Jubilee Hall</strong><br>72, Dr Radhakrishna St, near Fathima Church, Doctor's Colony, Laxmana Nagar, Gandhipuram, Coimbatore, Tamil Nadu 641012</p>
         <button class="btn secondary" data-map="RECEPTION"><strong>View on Map</strong></button>
       </article>
     </div>
@@ -1655,7 +1656,7 @@ body p,body h1,body h2,body h3,body div,body span,body strong,body small,body la
 const weddingConfig = {
   groom: "C. Issac",
   bride: "K. Jeevitha",
-  weddingDate: "2026-11-11T11:00:00",
+  weddingDate: "2026-11-11T09:30:00",
   engagement: {
     date: "To be updated",
     time: "To be updated",
@@ -1663,12 +1664,12 @@ const weddingConfig = {
   },
   marriage: {
     date: "11 November 2026",
-    time: "To be updated",
+    time: "9:30 AM",
     venue: "Coimbatore Register Office"
   },
   reception: {
     date: "11 November 2026",
-    time: "To be updated",
+    time: "9:30 AM",
     venue: "TELC Hall, Coimbatore"
   },
   maps: {
